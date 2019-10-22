@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\src\\App.svelte",
+    "..\\src\\PictureUpload.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n\timport { writable } from 'svelte/store';\n\t\n\timport PictureUpload from './PictureUpload.svelte';\n\t\n\tlet miniUploader;\n\tlet uploaderAtHome;\n\t\n\texport const source = writable(null);\n\texport const sourceAtHome = writable(null);\n\t\n\tfunction handleUpload(e) {\n    const fileName = e.target.files[0].name;\n    const reader = new FileReader();\n    reader.readAsDataURL(e.target.files[0]);\n    reader.onload = event => {\n\t\t\tconst store = e.target.getAttribute('class').indexOf('at-home') !== -1 ? sourceAtHome : source;\n\t\t\tstore.update(n => event.target.result);\n\t\t}\n\t}\n\t\n\tfunction handleClick(e) {\n\t\tconst uploader = e.detail.target.getAttribute('class').indexOf('at-home') !== -1 ? uploaderAtHome : miniUploader;\n\t\tuploader.click(e);\n\t}\n</script>\n\n<style>\n\tp {\n\t\tfont-size: 48px;\n\t}\n\tinput {\n\t\topacity: 0.0;\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tleft: 0;\n\t}\n</style>\n\n<p>\n\tMe: Can I have <PictureUpload src={source} width=\"100\" on:click=\"{handleClick}\" /> \n</p>\n<p>\n\tMom: \"No, we have already <PictureUpload src={source} width=\"100\" on:click=\"{handleClick}\" /> at home\" \n</p>\n<p>\n\t<PictureUpload src={source} width=\"100\" on:click=\"{handleClick}\" /> at home:  \n</p>\n<PictureUpload atHome=\"{true}\" src={sourceAtHome} width=\"500\" on:click=\"{handleClick}\" />\n\n<input on:change={handleUpload} bind:this={uploaderAtHome} type=\"file\" accept=\"image/*\" class:at-home=\"{true}\" />\n<input on:change={handleUpload} bind:this={miniUploader} type=\"file\" accept=\"image/*\" />\n\n",
+    "<script>\n\timport { createEventDispatcher } from 'svelte';\n\t\n\texport let src;\n\texport let width;\n\texport let atHome = false;\n\t\n\tconst dispatch = createEventDispatcher();\n\t\n\tfunction handleClick(e) {\n\t\tdispatch('click', e);\t\t\n\t}\n</script>\n\n<style>\n\t.container {\n\t\tbackground-size: contain;\n\t\tbackground-repeat: no-repeat;\n\t\tdisplay: inline-block;\n\t\tvertical-align: middle;\n\t\tcursor: pointer;\n\t}\n</style>\n\n{#if $src}\n<img class=\"container\" class:at-home=\"{!!atHome}\" src=\"{$src}\" style=\"max-width: {width}px\" alt=\"uploaded image\" on:click={handleClick} />\n{:else}\n<img class=\"container\" class:at-home=\"{!!atHome}\" src=\"{`https://place-hold.it/${width}x${width})`}\" alt=\"placeholder\" on:click={handleClick}\n>\n{/if}"
+  ],
+  "names": [],
+  "mappings": "AA4BC,CAAC,eAAC,CAAC,AACF,SAAS,CAAE,IAAI,AAChB,CAAC,AACD,KAAK,eAAC,CAAC,AACN,OAAO,CAAE,GAAG,CACZ,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,AACR,CAAC;ACrBD,UAAU,eAAC,CAAC,AACX,eAAe,CAAE,OAAO,CACxB,iBAAiB,CAAE,SAAS,CAC5B,OAAO,CAAE,YAAY,CACrB,cAAc,CAAE,MAAM,CACtB,MAAM,CAAE,OAAO,AAChB,CAAC"
+}
