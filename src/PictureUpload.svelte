@@ -1,25 +1,25 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	
-	export let src;
-	export let width;
-	export let atHome = false;
-	
-	const dispatch = createEventDispatcher();
-	
-	function handleClick(e) {
-		dispatch('click', e);		
-	}
+  import { createEventDispatcher } from 'svelte';
+  
+  export let src;
+  export let width;
+  export let atHome = false;
+  
+  const dispatch = createEventDispatcher();
+  
+  function handleClick(e) {
+    dispatch('click', e);		
+  }
 </script>
 
 <style>
-	.container {
-		background-size: contain;
-		background-repeat: no-repeat;
-		display: inline-block;
-		vertical-align: middle;
-		cursor: pointer;
-	}
+  .container {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+  }
 </style>
 
 {#if $src}
